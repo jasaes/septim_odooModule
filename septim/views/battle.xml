@@ -1,0 +1,44 @@
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="septim.form_battle">
+      <field name="name">septim form battle</field>
+      <field name="model">septim.battle</field>
+      <field name="arch" type="xml">
+        <form>
+          <header>
+            <field name="state" widget="statusbar" />
+          </header>
+          <sheet string = "Form battle">
+            <group>
+              <field name="player1"/>
+              <field name="dovahkiin_player1"/>
+              <field name="player2"/>
+              <field name="dovahkiin_player2"/>
+              <field name="start_date"/>
+              <field name="end_date"/>
+              <field name="progress" widget="progressbar"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="septim.view_battle">
+      <field name="name">septim view battle</field>
+      <field name="model">septim.battle</field>
+      <field name="arch" type="xml">
+        <tree>
+            <field name="player1"/>
+            <field name="dovahkiin_player1"/>
+            <field name="player2"/>
+            <field name="dovahkiin_player2"/>
+            <field name="start_date"/>
+            <field name="end_date"/>
+            <field name="progress" widget="progressbar"/>
+        </tree>
+      </field>
+    </record>
+
+    </data>
+</odoo>
