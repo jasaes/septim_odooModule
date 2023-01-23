@@ -1,5 +1,14 @@
 #-*- coding: utf-8 -*-
 
+
+
+#en el player model ficar un bool is_player, i ho fica en la vista del player, en el form
+
+#fer form herencia en player
+
+
+#fer cron en els dovahkiin
+
 from odoo import models, fields, api
 
 import random
@@ -18,23 +27,24 @@ class septim(models.Model):
 
 
 class player(models.Model):
-    _name = 'septim.player'
+    _name = 'res.partner'
     _description = 'player'
+    _inherit = 'res.partner'
 
-    name = fields.Char(readonly = False, required = True, ondelete ="cascade")
+    #name = fields.Char(readonly = False, required = True, ondelete ="cascade")
     gold = fields.Float(default = 100, readonly = True, help = "L'or que te el jugador per millorar l'equip, dovahkiins, etc.", ondelete ="cascade")
     dovahkiin = fields.One2many("septim.dovahkiin", "player", String = "dovahkiin", readonly = True, ondelete ="cascade")
     elo = fields.Char(readonly = True, required = True, default = 0, ondelete ="cascade")
     image = fields.Image(size_width = 200, max_height = 200, ondelete ="cascade")
     image_petita = fields.Image(related = "image", size_width=100, max_height = 100, ondelete ="cascade")
-
+    is_player = fields.Boolean(default = False)
 
 class dovahkiin(models.Model):
     _name = 'septim.dovahkiin'
     _description = 'dovahkiin'
 
     name = fields.Char(required = True)
-    player = fields.Many2one("septim.player", required = True)
+    player = fields.Many2one("res.partner", required = True)
     elo = fields.Char(readonly = True, required = True, default = 0)
     image = fields.Image(size_width=200, max_height = 200)
     
@@ -121,6 +131,33 @@ class dovahkiin(models.Model):
     sleep = fields.Float(default = 100, readonly = True)
 
 
+  @api.model
+    def produce(self):  # ORM CRON
+        self.search([]).produce_gold()
+
+
+    def produce_gold(self):
+            for docahkiin in self:
+                water = player.gold + colony.water_production
+                metal = colony.metal + colony.metal_production
+                hydrogen = colony.hydrogen + colony.hydrogen_production
+                food = colony.food + colony.food_production
+                energy = colony.energy_production
+
+                colony.write({
+                    "water": water,
+                    "metal": metal,
+                    "hydrogen": hydrogen,
+                    "food": food,
+                    "energy": energy
+                })
+
+
+
+
+
+
+
     @api.model
     def create(self, values):
         new_id = super(dovahkiin, self).create(values)
@@ -164,13 +201,13 @@ class battle(models.Model):
     _name = 'septim.battle'
     _description = 'battle'
 
-    player1 = fields.Many2one("septim.player", required = True)
+    player1 = fields.Many2one("res.partner", required = True)
     dovahkiin_player1 = fields.Many2one("septim.dovahkiin", required = True)
-    player2 = fields.Many2one("septim.player", required = True)
+    player2 = fields.Many2one("res.partner", required = True)
     dovahkiin_player2 = fields.Many2one("septim.dovahkiin", required = True)
 
-    winner = fields.Many2one("septim.player", compute = "_simulate_battle", readonly = True)
-    loser = fields.Many2one("septim.player", compute = "_simulate_battle", readonly = True)
+    winner = fields.Many2one("res.partner", compute = "_simulate_battle", readonly = True)
+    loser = fields.Many2one("res.partner", compute = "_simulate_battle", readonly = True)
 
     start_date = fields.Datetime(required = True, default = fields.Datetime.now, readonly=True)
     end_date = fields.Datetime(compute = "_end_date_battle", readonly = True)
@@ -327,7 +364,7 @@ class forge(models.Model):
     _name = 'septim.forge'
     _description = 'forge'
 
-    player = fields.Many2one("septim.player", required = True)
+    player = fields.Many2one("res.partner", required = True)
     dovahkiin = fields.Many2one("septim.dovahkiin", required = True)
 
     force = fields.Float(compute = "_default_force_forge", readonly = True) 
@@ -811,3 +848,31 @@ class forge(models.Model):
 #         return new_id
 
 
+################# WIZARDS #################
+
+class player_wizard(models.TransientModel):
+    _name = 'septim.player_wizard'
+    _description = 'Wizzard create player'
+    
+    def _default_client(self):
+        return self.env['res.partner'].browse(self._context.get('active_id')) 
+
+    name = fields.Many2one('res.partner',default=_default_client, required=True)
+    gold = fields.Float(default = 100, readonly = True, help = "L'or que te el jugador per millorar l'equip, dovahkiins, etc.", ondelete ="cascade")
+    dovahkiin = fields.One2many("septim.dovahkiin", "player", String = "dovahkiin", readonly = True, ondelete ="cascade")
+    elo = fields.Char(readonly = True, required = True, default = 0, ondelete ="cascade")
+    image = fields.Image(size_width = 200, max_height = 200, ondelete ="cascade")
+    
+
+    @api.model
+    def default_get(self, default_fields):
+        result = super(player_wizard, self).default_get(default_fields)
+        return result
+
+    def create_player(self):
+        self.ensure_one()
+        self.name.write({'gold': self.gold,
+                         'elo': self.elo,
+                         'image': self.image,
+                         'is_player': True
+                         })

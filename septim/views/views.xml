@@ -16,78 +16,6 @@
 -->
 
 
-    <record model="ir.ui.view" id="septim.form_player">
-      <field name="name">septim form player</field>
-      <field name="model">septim.player</field>
-      <field name="arch" type="xml">
-        <form>
-          <sheet string="Form Player">
-            <group>
-              <field name="image" widget="image" />
-              <field name="name"/>
-              <field name="elo" />
-              <field name="dovahkiin" />
-            </group>
-          </sheet>
-
-<!-- < jo crec que ací va el kanban -->
-
-
-        </form>
-      </field>
-    </record>
-
-    <record model="ir.ui.view" id="septim.view_player">
-      <field name="name">septim view player</field>
-      <field name="model">septim.player</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="image_petita" widget="image" />
-          <field name="name" />
-          <field name="elo" />
-          <field name="gold" />
-          <field name="dovahkiin" />
-        </tree>
-      </field>
-    </record>
-
-
-    <record model="ir.ui.view" id="septim.view_kanban_player">
-      <field name="name">septim kanban player</field>
-      <field name="model">septim.player</field>
-      <field name="arch" type="xml">
-        <kanban>
-          <field name="id" />
-          <field name="image" />
-          <field name="name" />
-          <field name="elo" />
-          <field name="gold" />
-          <field name="dovahkiin" />
-
-          <templates>
-            <t t-name="kanban-box">
-              <div t-attf-class="oe_kanban_card  o_kanban_record_has_image_fill">
-                <div class="o_kanban_image_fill_left o_kanban_image_full d-none d-md-block"
-                  t-attf-style="background-image:url('#{kanban_image('septim.player', 'image', record.id.value, placeholder)}')"></div>
-
-                <div class="oe_kanban_details d-flex flex-column">
-                  <a type="open">
-                    <h4 class="o_kanban_record_title oe_partner_heading"> <field name="name" /> </h4>
-                  </a>
-                  <ul>
-                    <li> Elo: <field name="elo" /> </li>
-                    <li> Gold: <field name="gold" /> </li>
-                  </ul>
-                </div>
-
-              </div>
-            </t>
-          </templates>
-
-        </kanban>
-      </field>
-    </record>
-
 
     <record model="ir.ui.view" id="septim.form_dovahkiin">
       <field name="name">septim form dovahkiin</field>
@@ -414,8 +342,13 @@
     <!-- actions opening views on models -->
     <record model="ir.actions.act_window" id="septim.action_window_player">
       <field name="name">septim player</field>
-      <field name="res_model">septim.player</field>
+      <field name="res_model">res.partner</field>
       <field name="view_mode">tree,form,kanban</field>
+      <field name="domain"> [('is_player','=',True)]</field>
+      <field name="context">{'default_is_player': True}</field>
+      <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('septim.view_player')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('septim.form_player')}),]" />
     </record>
 
     <record model="ir.actions.act_window" id="septim.action_window_dovahkiin">

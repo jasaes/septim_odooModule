@@ -27,6 +27,8 @@
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/battle.xml',
+        'views/ceon.xml',
+        'views/player.xml',
         'views/templates.xml',
     ],
     # only loaded in demonstration mode
