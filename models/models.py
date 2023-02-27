@@ -20,24 +20,32 @@ class septim(models.Model):
     
     name = fields.Char()
 
-    # @api.depends('value')
-    # def _value_pc(self):
-    #     for record in self:
-    #         record.value2 = float(record.value) / 100
-
-
 class player(models.Model):
     _name = 'res.partner'
     _description = 'player'
     _inherit = 'res.partner'
 
-    #name = fields.Char(readonly = False, required = True, ondelete ="cascade")
+    name = fields.Char(readonly = False, required = True, ondelete ="cascade", default = "playerXXXXX")
+
     gold = fields.Float(default = 100, readonly = True, help = "L'or que te el jugador per millorar l'equip, dovahkiins, etc.", ondelete ="cascade")
     dovahkiin = fields.One2many("septim.dovahkiin", "player", String = "dovahkiin", readonly = True, ondelete ="cascade")
-    elo = fields.Char(readonly = True, required = True, default = 0, ondelete ="cascade")
+    elo = fields.Float(readonly = True, required = True, default = 0, ondelete ="cascade")
     image = fields.Image(size_width = 200, max_height = 200, ondelete ="cascade")
     image_petita = fields.Image(related = "image", size_width=100, max_height = 100, ondelete ="cascade")
     is_player = fields.Boolean(default = False)
+
+
+    @api.model
+    def produce(self):  # ORM CRON
+        self.search([]).produce_gold()
+
+    def produce_gold(self):
+        for player in self:
+                gold = player.gold+player.elo;
+
+                player.write({
+                    "gold": gold
+                })
 
 class dovahkiin(models.Model):
     _name = 'septim.dovahkiin'
@@ -51,9 +59,10 @@ class dovahkiin(models.Model):
     price = fields.Char(readonly = True, required = True, default = 50)
 
     state = fields.Integer(required = True, readonly = True, default = 0) #0 = disponible, 1 = lluitant, 2 = viatjant, 3 = ciutat, 4 = mina
-
+    gold_production = fields.Integer(required = True, readonly = True, default = 0)
 
     horse = fields.Many2one("septim.horse", String = "horse", readonly = True, compute = "_many2manyHorse")
+
 
     def _many2manyHorse(self):
         for b in self:
@@ -70,7 +79,7 @@ class dovahkiin(models.Model):
         for b in self:
             b.place = self.env['septim.place'].search([('dovahkiin.id','=',b.id)]).id 
 
-    force = fields.Float(default = 10, readonly = True)
+    force = fields.Float(default = 15, readonly = True)
     health = fields.Float(default = 50, readonly = True)
     maxhealth = fields.Float(default = 50, readonly = True)
     armor = fields.Float(default = 10, readonly = True)
@@ -130,30 +139,6 @@ class dovahkiin(models.Model):
     food = fields.Float(default = 100, readonly = True)
     sleep = fields.Float(default = 100, readonly = True)
 
-
-  @api.model
-    def produce(self):  # ORM CRON
-        self.search([]).produce_gold()
-
-
-    def produce_gold(self):
-            for docahkiin in self:
-                water = player.gold + colony.water_production
-                metal = colony.metal + colony.metal_production
-                hydrogen = colony.hydrogen + colony.hydrogen_production
-                food = colony.food + colony.food_production
-                energy = colony.energy_production
-
-                colony.write({
-                    "water": water,
-                    "metal": metal,
-                    "hydrogen": hydrogen,
-                    "food": food,
-                    "energy": energy
-                })
-
-
-
     @api.model
     def create(self, values):
         new_id = super(dovahkiin, self).create(values)
@@ -205,6 +190,7 @@ class battle(models.Model):
     winner = fields.Many2one("res.partner", compute = "_simulate_battle", readonly = True)
     loser = fields.Many2one("res.partner", compute = "_simulate_battle", readonly = True)
 
+
     start_date = fields.Datetime(required = True, default = fields.Datetime.now, readonly=True)
     end_date = fields.Datetime(compute = "_end_date_battle", readonly = True)
     progress = fields.Float(compute="_compute_progress", readonly = True)
@@ -254,55 +240,62 @@ class battle(models.Model):
     def create(self, values):
         new_id = super(battle, self).create(values)
         new_id.state = "2";
+        new_id._simulate_battle()
         return new_id
 
 
-    def _simulate_battle():
+    def _simulate_battle(self):
         for s in self:
 
             tornsPlayer1 = 0;
             tornsPlayer2 = 0;
 
-            #atac jugador1
-            while(dovahkiin_player2.health > 0):
+            #atac jugador1 no acaba
+            while((s.dovahkiin_player2.health > 0) and (tornsPlayer1 <10)):
                 tornsPlayer1 = tornsPlayer1 + 1;
 
-                dovahkiin_player2.health = dovahkiin_player2.health - (dovahkiin_player1.force_total - dovahkiin_player2.armor_total) 
+                s.dovahkiin_player2.health = s.dovahkiin_player2.health - (s.dovahkiin_player1.force_total - s.dovahkiin_player2.armor_total) 
 
                 critProb = random.randint(0, 100);
-                if(critProb > 0 and critProb < dovahkiin_player1.critical_chance_total):
-                    dovahkiin_player2.health = dovahkiin_player2.health - (dovahkiin_player1.critical_damage_total - dovahkiin_player2.armor_total);  
+                if(critProb > 0 and critProb < s.dovahkiin_player1.critical_chance_total):
+                    s.dovahkiin_player2.health = s.dovahkiin_player2.health - (s.dovahkiin_player1.critical_damage_total - s.dovahkiin_player2.armor_total);  
 
                 poisonProb = random.randint(0, 100);
-                if(poisonProb > 0 and poisonProb < dovahkiin_player1.poison_chance_total):
-                    dovahkiin_player2.health = dovahkiin_player2.health - dovahkiin_player1.poison_damage_total;  
+                if(poisonProb > 0 and poisonProb < s.dovahkiin_player1.poison_chance_total):
+                    s.dovahkiin_player2.health = s.dovahkiin_player2.health - s.dovahkiin_player1.poison_damage_total;  
 
-            #atac jugador2
-            while(dovahkiin_player1.health > 0):
+            #atac jugador2 no acaba
+            while((s.dovahkiin_player1.health > 0) and (tornsPlayer2 <10)):
                 tornsPlayer2 = tornsPlayer2 + 1;
 
-                dovahkiin_player1.health = dovahkiin_player1.health - (dovahkiin_player2.force_total - dovahkiin_player1.armor_total) 
+                s.dovahkiin_player1.health = s.dovahkiin_player1.health - (s.dovahkiin_player2.force_total - s.dovahkiin_player1.armor_total) 
 
                 critProb = random.randint(0, 100);
-                if(critProb > 0 and critProb < dovahkiin_player2.critical_chance_total):
-                    dovahkiin_player1.health = dovahkiin_player1.health - (dovahkiin_player2.critical_damage_total - dovahkiin_player1.armor_total);  
+                if(critProb > 0 and critProb < s.dovahkiin_player2.critical_chance_total):
+                    s.dovahkiin_player1.health = s.dovahkiin_player1.health - (s.dovahkiin_player2.critical_damage_total - s.dovahkiin_player1.armor_total);  
 
                 poisonProb = random.randint(0, 100);
-                if(poisonProb > 0 and poisonProb < dovahkiin_player2.poison_chance_total):
-                    dovahkiin_player1.health = dovahkiin_player1.health - dovahkiin_player1.poison_damage_total;  
+                if(poisonProb > 0 and poisonProb < s.dovahkiin_player2.poison_chance_total):
+                    s.dovahkiin_player1.health = s.dovahkiin_player1.health - s.dovahkiin_player1.poison_damage_total;  
 
 
             if tornsPlayer2 > tornsPlayer1:
                 s.winner = s.player1
                 s.loser = s.player2
+                s.player1.elo = s.player1.elo + 3;
+                s.player2.elo = s.player2.elo - 1;
 
             if tornsPlayer1 > tornsPlayer2:
                 s.winner = s.player2
                 s.loser = s.player1
+                s.player2.elo = s.player2.elo + 3;
+                s.player1.elo = s.player1.elo - 1;
 
             if tornsPlayer1 == tornsPlayer2:
                 s.winner = False
-                s.loser = False       
+                s.loser = False 
+                s.player2.elo = s.player2.elo + 1;
+                s.player1.elo = s.player1.elo + 1;      
         
 
 class place(models.Model):
