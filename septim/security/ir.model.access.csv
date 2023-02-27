@@ -1,8 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_septim_septim,septim.septim,model_septim_septim,base.group_user,1,1,1,1
-access_septim_dovahkiin,septim.dovahkiin,model_septim_dovahkiin,base.group_user,1,1,1,1
-access_septim_battle,septim.battle,model_septim_battle,base.group_user,1,1,1,1
-access_septim_place,septim.place,model_septim_place,base.group_user,1,1,1,1
-access_septim_horse,septim.horse,model_septim_horse,base.group_user,1,1,1,1
-access_septim_forge,septim.forge,model_septim_forge,base.group_user,1,1,1,1
-access_septim.player_wizard,septim.player_wizard,model_septim_player_wizard,base.group_user,1,1,1,1
