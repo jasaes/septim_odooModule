@@ -1,0 +1,440 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="septim.list">
+      <field name="name">septim list</field>
+      <field name="model">septim.septim</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+
+
+    <record model="ir.ui.view" id="septim.form_dovahkiin">
+      <field name="name">septim form dovahkiin</field>
+      <field name="model">septim.dovahkiin</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet string="Form Dovahkiin">
+            <field name="image" widget="image" />
+            <field name="name" />
+            <field name="player" />
+            <field name="price" />
+            <group>
+              <group>
+                <field name="force" />
+                <field name="health" />
+                <field name="maxhealth" />
+                <field name="armor" />
+                <field name="critical_chance" />
+                <field name="critical_damage" />
+                <field name="poison_chance" />
+                <field name="poison_damage" />
+              </group>
+
+              <group>
+                <field name="force_helmet" />
+                <field name="maxhealth_helmet" />
+                <field name="armor_helmet" />
+                <field name="critical_chance_helmet" />
+                <field name="critical_damage_helmet" />
+                <field name="poison_damage_helmet" />
+              </group>
+
+              <group>
+                <field name="force_chestplate" />
+                <field name="maxhealth_chestplate" />
+                <field name="armor_chestplate" />
+                <field name="critical_chance_chestplate" />
+                <field name="critical_damage_chestplate" />
+                <field name="poison_chance_chestplate" />
+                <field name="poison_damage_chestplate" />
+              </group>
+
+              <group>
+                <field name="force_leggins" />
+                <field name="maxhealth_leggins" />
+                <field name="armor_leggins" />
+                <field name="critical_chance_leggins" />
+                <field name="critical_damage_leggins" />
+                <field name="poison_chance_leggins" />
+                <field name="poison_damage_leggins" />
+              </group>
+              <group>
+                <field name="force_boots" />
+                <field name="maxhealth_boots" />
+                <field name="armor_boots" />
+                <field name="critical_chance_boots" />
+                <field name="critical_damage_boots" />
+                <field name="poison_chance_boots" />
+                <field name="poison_damage_boots" />
+              </group>
+
+              <group>
+                <field name="critical_chance_weapon" />
+                <field name="critical_damage_weapon" />
+                <field name="poison_chance_weapon" />
+                <field name="poison_damage_weapon" />
+              </group>
+
+              <group>
+                <field name="force_total" />
+                <field name="maxhealth_total" />
+                <field name="armor_total" />
+                <field name="critical_chance_total" />
+                <field name="critical_damage_total" />
+                <field name="poison_chance_total" />
+              </group>
+              <group>
+                <field name="food" />
+                <field name="sleep" />
+              </group>
+
+
+            </group>
+            <!-- <button name="buy_dobahkiin" type="object" string="Buy" class="oe_highlight" /> -->
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="septim.view_dovahkiin">
+      <field name="name">septim view dovahkiin</field>
+      <field name="model">septim.dovahkiin</field>
+      <field name="arch" type="xml">
+        <tree decoration-warning="health&lt;10">
+          <field name="image" widget="image" />
+          <field name="name" />
+          <field name="player" />
+ 
+       <!--   <field name="force" />-->
+          <field name="health" />
+   <!--       <field name="maxhealth" />
+          <field name="armor" />
+          <field name="critical_chance" />
+          <field name="critical_damage" />
+          <field name="poison_chance" />
+          <field name="poison_damage" />
+
+          <field name="force_helmet" />
+          <field name="maxhealth_helmet" />
+          <field name="armor_helmet" />
+          <field name="critical_chance_helmet" />
+          <field name="critical_damage_helmet" />
+          <field name="poison_damage_helmet" />
+
+          <field name="force_chestplate" />
+          <field name="maxhealth_chestplate" />
+          <field name="armor_chestplate" />
+          <field name="critical_chance_chestplate" />
+          <field name="critical_damage_chestplate" />
+          <field name="poison_chance_chestplate" />
+          <field name="poison_damage_chestplate" />
+
+          <field name="force_leggins" />
+          <field name="maxhealth_leggins" />
+          <field name="armor_leggins" />
+          <field name="critical_chance_leggins" />
+          <field name="critical_damage_leggins" />
+          <field name="poison_chance_leggins" />
+          <field name="poison_damage_leggins" />
+
+          <field name="force_boots" />
+          <field name="maxhealth_boots" />
+          <field name="armor_boots" />
+          <field name="critical_chance_boots" />
+          <field name="critical_damage_boots" />
+          <field name="poison_chance_boots" />
+          <field name="poison_damage_boots" />
+
+          <field name="critical_chance_weapon" />
+          <field name="critical_damage_weapon" />
+          <field name="poison_chance_weapon" />
+          <field name="poison_damage_weapon" />
+ -->
+          <field name="force_total" />
+          <field name="maxhealth_total" />
+          <field name="armor_total" />
+          <field name="critical_chance_total" />
+          <field name="critical_damage_total" />
+          <field name="poison_chance_total" />
+
+
+        </tree>
+      </field>
+    </record>
+
+
+    <!-- estava lo de battle -->
+
+
+    <record model="ir.ui.view" id="septim.form_horse">
+      <field name="name">septim form horse</field>
+      <field name="model">septim.horse</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet string="Form horse">
+            <group>
+              <field name="name" />
+              <field name="price" />
+              <field name="level" />
+              <field name="uses" />
+              <field name="dovahkiin" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="septim.view_horse">
+      <field name="name">septim view horse</field>
+      <field name="model">septim.horse</field>
+      <field name="arch" type="xml">
+        <tree decoration-warning="uses&lt;2">
+          <field name="name" />
+          <field name="uses" />
+          <field name="level" />
+          <field name="dovahkiin" />
+        </tree>
+      </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="septim.form_forge">
+      <field name="name">septim form forge</field>
+      <field name="model">septim.forge</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet string="Form Forge">
+            <group>
+              <group>
+                <field name="player" />
+                <field name="dovahkiin" />
+              </group>
+
+              <group>
+                <field name="force" />
+                <field name="health" />
+                <field name="maxhealth" />
+                <field name="armor" />
+                <field name="critical_chance" />
+                <field name="critical_damage" />
+                <field name="poison_chance" />
+                <field name="poison_damage" />
+              </group>
+
+              <group>
+                <field name="force_helmet" />
+                <field name="maxhealth_helmet" />
+                <field name="armor_helmet" />
+                <field name="critical_chance_helmet" />
+                <field name="critical_damage_helmet" />
+                <field name="poison_damage_helmet" />
+                <button name="generate_helmet" type="object" string="Forge Helmet" />
+              </group>
+
+              <group>
+                <field name="force_chestplate" />
+                <field name="maxhealth_chestplate" />
+                <field name="armor_chestplate" />
+                <field name="critical_chance_chestplate" />
+                <field name="critical_damage_chestplate" />
+                <field name="poison_chance_chestplate" />
+                <field name="poison_damage_chestplate" />
+                <button name="generate_chestplate" type="object" string="Forge Chestplate" />
+              </group>
+
+              <group>
+                <field name="force_leggins" />
+                <field name="maxhealth_leggins" />
+                <field name="armor_leggins" />
+                <field name="critical_chance_leggins" />
+                <field name="critical_damage_leggins" />
+                <field name="poison_chance_leggins" />
+                <field name="poison_damage_leggins" />
+                <button name="generate_leggins" type="object" string="Forge Leggins" />
+              </group>
+
+              <group>
+                <field name="force_boots" />
+                <field name="maxhealth_boots" />
+                <field name="armor_boots" />
+                <field name="critical_chance_boots" />
+                <field name="critical_damage_boots" />
+                <field name="poison_chance_boots" />
+                <field name="poison_damage_boots" />
+                <button name="generate_boots" type="object" string="Forge Boots" />
+              </group>
+
+              <group>
+                <field name="force_weapon" />
+                <field name="critical_chance_weapon" />
+                <field name="critical_damage_weapon" />
+                <field name="poison_chance_weapon" />
+                <field name="poison_damage_weapon" />
+                <button name="generate_weapon" type="object" string="Forge Weapon" />
+              </group>
+
+              <group>
+                <field name="force_total" />
+                <field name="maxhealth_total" />
+                <field name="armor_total" />
+                <field name="critical_chance_total" />
+                <field name="critical_damage_total" />
+                <field name="poison_chance_total" />
+              </group>
+
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="septim.view_forge">
+      <field name="name">septim view forge</field>
+      <field name="model">septim.forge</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="player" />
+          <field name="dovahkiin" />
+
+        </tree>
+      </field>
+    </record>
+
+
+    <!-- <record model="ir.ui.view" id="septim.form_travel">
+      <field name="name">septim form travel</field>
+      <field name="model">septim.travel</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet string = "Form travel">
+            <group>
+            <field name="destiny"/>
+            <field name="horesFinals"/>
+            <field name="dovahkiin"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="septim.view_travel">
+      <field name="name">septim view travel</field>
+      <field name="model">septim.travel</field>
+      <field name="arch" type="xml">
+        <tree>
+            <field name="destiny"/>
+            <field name="horesFinals"/>
+            <field name="dovahkiin"/>
+        </tree>
+      </field>
+    </record> -->
+
+
+    <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="septim.action_window_player">
+      <field name="name">septim player</field>
+      <field name="res_model">res.partner</field>
+      <field name="view_mode">tree,form,kanban</field>
+      <field name="domain"> [('is_player','=',True)]</field>
+      <field name="context">{'default_is_player': True}</field>
+      <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('septim.view_player')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('septim.form_player')}),]" />
+    </record>
+
+    <record model="ir.actions.act_window" id="septim.action_window_dovahkiin">
+      <field name="name">septim dovahkiin</field>
+      <field name="res_model">septim.dovahkiin</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="septim.action_window_battle">
+      <field name="name">septim battle</field>
+      <field name="res_model">septim.battle</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="septim.action_window_horse">
+      <field name="name">septim horse</field>
+      <field name="res_model">septim.horse</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="septim.action_window_forge">
+      <field name="name">septim forge</field>
+      <field name="res_model">septim.forge</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- <record model="ir.actions.act_window" id="septim.action_window_travel">
+      <field name="name">septim travel</field>
+      <field name="res_model">septim.travel</field>
+      <field name="view_mode">tree,form</field>
+    </record> -->
+
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="septim.action_server">
+      <field name="name">septim server</field>
+      <field name="model_id" ref="model_septim_septim"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+
+    <menuitem name="septim" id="septim.menu_root" />
+
+    <!-- menu categories -->
+
+    <menuitem name="Player" id="septim.menu_player" parent="septim.menu_root" />
+    <menuitem name="Dovahkiin" id="septim.menu_dovahkiin" parent="septim.menu_root" />
+    <menuitem name="Arena" id="septim.menu_battle" parent="septim.menu_root" action="septim.action_window_battle" />
+    <menuitem name="Shop" id="septim.menu_shop" parent="septim.menu_root" />
+    <!-- <menuitem name="Travel" id="septim.menu_travel" parent="septim.menu_root"/> -->
+
+
+    <!--  <menuitem name="Menu 2" id="septim.menu_2" parent="septim.menu_root"/>
+-->
+    <!-- actions -->
+
+    <menuitem name="Player List" id="septim.menu_player_list" parent="septim.menu_player"
+      action="septim.action_window_player" />
+
+    <menuitem name="Dovahkiin List" id="septim.menu_dovahkiin_list" parent="septim.menu_dovahkiin"
+      action="septim.action_window_dovahkiin" />
+
+    <menuitem name="Equipment" id="septim.menu_equipment" parent="septim.menu_shop" />
+
+    <menuitem name="Horse" id="septim.menu_horse" parent="septim.menu_shop"
+      action="septim.action_window_horse" />
+
+    <menuitem name="Forge" id="septim.menu_forge2" parent="septim.menu_shop"
+      action="septim.action_window_forge" />
+
+    <!-- <menuitem name="Travel" id="septim.menu_travela" parent="septim.menu_travel"
+              action="septim.action_window_travel"/> -->
+
+    <!-- <menuitem name="Server to list" id="septim" parent="septim.menu_2"
+              action="septim.action_server"/> -->
+
+  </data>
+</odoo>
