@@ -154,10 +154,6 @@ class dovahkiin(models.Model):
 
 
 
-
-
-
-
     @api.model
     def create(self, values):
         new_id = super(dovahkiin, self).create(values)
@@ -175,7 +171,7 @@ class dovahkiin(models.Model):
     def _total_armor(self):
         for dovahkiin in self:
             dovahkiin.armor_total = dovahkiin.armor + dovahkiin.armor_helmet + dovahkiin.armor_chestplate + dovahkiin.armor_leggins + dovahkiin.armor_boots;
-
+            
     def _total_critical_chance(self):
         for dovahkiin in self:
             dovahkiin.critical_chance_total = dovahkiin.critical_chance + dovahkiin.critical_chance_helmet + dovahkiin.critical_chance_chestplate + dovahkiin.critical_chance_leggins + dovahkiin.critical_chance_boots + dovahkiin.critical_chance_weapon;
